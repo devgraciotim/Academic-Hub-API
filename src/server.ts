@@ -1,13 +1,12 @@
 import express, { Request, Response } from "express";
 import { AppDataSource } from "./data-source";
+import routes from "./routes";
 
 AppDataSource.initialize().then(() => {
     const app = express();
     app.use(express.json());
 
-    app.get("/", (req: Request, res: Response): void => {
-        res.json("connected");
-    });
+    app.use(routes);
 
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
