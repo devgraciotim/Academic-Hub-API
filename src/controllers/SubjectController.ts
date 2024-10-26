@@ -1,4 +1,3 @@
-// controllers/SubjectController.ts
 import { Request, Response } from "express";
 import { SubjectService } from "../services/SubjectService";
 
