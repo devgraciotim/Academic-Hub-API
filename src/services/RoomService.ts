@@ -27,24 +27,24 @@ export class RoomService {
     }
 
     async createSubject(subject_id: number, idRoom: number) {
-        const room = await roomRepository.findOne({where: { id: idRoom }});
-
-        if(!room) {
+        const room = await roomRepository.findOne({
+            where: { id: idRoom },
+            relations: ['subjects']
+        });
+    
+        if (!room) {
             return null;
         }
-
-        const subject = await subjectRepository.findOneBy({ id: subject_id})
-
-        if(!subject){
+    
+        const subject = await subjectRepository.findOneBy({ id: subject_id });
+    
+        if (!subject) {
             return null;
         }
-
-        const roomUpdated = {
-            ...room,
-            subjects: [subject]
-        }
-
-        return await roomRepository.save(roomUpdated);
+    
+        room.subjects = [...(room.subjects || []), subject];
+    
+        return await roomRepository.save(room);
     }
 
     async findAll() {
